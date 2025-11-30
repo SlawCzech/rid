@@ -90,3 +90,58 @@ class QuantitativeReviewEntry(BaseModel):
 
     luka_badawcza: Optional[str] = Field(default=None, alias="Luka_badawcza")
     ograniczenia_badan: Optional[str] = Field(default=None, alias="Ograniczenia_badań")
+
+
+
+
+
+class YesNoNPEnum(StrEnum):
+    Y = "Y"
+    N = "N"
+    NP = "NP"
+
+
+class MethodologyEntry(BaseModel):
+    """
+    Model dopasowany do wyjścia z METHODOLOGY_QUESTIONS.
+    Klucze JSON-owe (alias) są dokładnie takie jak w promptcie.
+    """
+    model_config = ConfigDict(populate_by_name=False)
+
+    quantitative: YesNoNPEnum = Field(alias="Quantitative")
+    qualitative: YesNoNPEnum = Field(alias="Qualitative")
+
+    primary: YesNoNPEnum = Field(alias="Primary")
+    secondary: YesNoNPEnum = Field(alias="Secondary")
+
+    sec_source1: str = Field(alias="SEC_source1")
+    sec_source2: str = Field(alias="SEC_source2")
+
+    method1: str = Field(alias="METHOD1")
+    method2: str = Field(alias="METHOD2")
+
+    scale1: str = Field(alias="SCALE1")
+    scale2: str = Field(alias="SCALE2")
+
+    scale1_type: str = Field(alias="SCALE1_type")
+    scale1_source: str = Field(alias="SCALE1_source")
+
+    reliability: YesNoNPEnum = Field(alias="RELIABILITY")
+    reliability_how: str = Field(alias="RELIABILITY_how")
+
+    # Uwaga: tu przyjmujemy string, bo w JSON-ie może być liczba albo "NP"
+    sample_n: str = Field(alias="SAMPLE_N")
+
+    sample_method: str = Field(alias="SAMPLE_method")
+    sample_quotas: str = Field(alias="SAMPLE_quotas")
+
+    pilot_study: YesNoNPEnum = Field(alias="PILOT_study")
+    sample_represent: YesNoNPEnum = Field(alias="SAMPLE_represent")
+
+    analysis1: str = Field(alias="ANALYSIS1")
+    analysis2: str = Field(alias="ANALYSIS2")
+
+    model_tested: YesNoNPEnum = Field(alias="MODEL_tested")
+    tested_how: str = Field(alias="TESTED_how")
+
+    new_methods: str = Field(alias="NEW_METHODS")

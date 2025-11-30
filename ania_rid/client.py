@@ -5,9 +5,9 @@ import os
 from ania_rid.excel_extract import extract_pdf_text
 from ania_rid.save_output import save_response_to_excel
 from prompts.project_desc import PROJECT_CONTEXT, LITERATURE_CONTEXT
-from prompts.review_questions import REVIEW_QUESTIONS
+from prompts.review_questions import REVIEW_QUESTIONS, METHODOLOGY_QUESTIONS
 from prompts.system_prompt import system_prompt
-from prompts.pydantic_review import QuantitativeReviewEntry
+from prompts.pydantic_review import QuantitativeReviewEntry, MethodologyEntry
 
 load_dotenv()
 
@@ -15,7 +15,7 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 article_name = input("Wpisz nazwę pliku do sparsowania:")
 
-ARTICLE_PATH = f"articles/{article_name}"
+ARTICLE_PATH = f"articles/{article_name}.pdf"
 ARTICLE_TEXT = extract_pdf_text(ARTICLE_PATH)
 
 response = client.responses.parse(
@@ -30,7 +30,7 @@ Additional theoretical background:
 {LITERATURE_CONTEXT}
 
 Fill the structured form:
-{REVIEW_QUESTIONS}
+{METHODOLOGY_QUESTIONS}
 
 Article text:
 ---
@@ -38,7 +38,7 @@ Article text:
 ---
         """}
     ],
-    text_format=QuantitativeReviewEntry,
+    text_format=MethodologyEntry,
     timeout=180
 )
 
